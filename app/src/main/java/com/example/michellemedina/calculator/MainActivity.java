@@ -23,9 +23,10 @@ public class MainActivity extends AppCompatActivity {
     TextView clear;
     TextView subtraction;
 
-    int prevValue;
-    int currValue;
-    boolean clearField;
+    int prevValue = 0;
+    int currValue = 0;
+    boolean clearField = false;
+    boolean turnPlusOff = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText()+ String.valueOf(0));
+                turnPlusOff = false;
+                result.setText(String.valueOf(0));
             }
         });
 
@@ -80,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText() + String.valueOf(1));
+                turnPlusOff = false;
+                result.setText(String.valueOf(1));
             }
         });
 
@@ -91,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText()+ String.valueOf(2));
+                turnPlusOff = false;
+                result.setText(String.valueOf(2));
             }
         });
 
@@ -102,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText()+ String.valueOf(3));
+                turnPlusOff = false;
+                result.setText(String.valueOf(3));
             }
         });
 
@@ -113,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText()+ String.valueOf(4));
+                turnPlusOff = false;
+                result.setText(String.valueOf(4));
             }
         });
 
@@ -124,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText()+ String.valueOf(5));
+                turnPlusOff = false;
+                result.setText(String.valueOf(5));
             }
         });
 
@@ -135,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText()+ String.valueOf(6));
+                turnPlusOff = false;
+                result.setText(String.valueOf(6));
             }
         });
 
@@ -146,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText()+ String.valueOf(7));
+                turnPlusOff = false;
+                result.setText(String.valueOf(7));
             }
         });
 
@@ -157,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText()+ String.valueOf(8));
+                turnPlusOff = false;
+                result.setText(String.valueOf(8));
             }
         });
 
@@ -168,26 +178,29 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("");
                     clearField = false;
                 }
-                result.setText(result.getText()+ String.valueOf(9));
+                turnPlusOff = false;
+                result.setText(String.valueOf(9));
             }
         });
 
     }
 
     private void setupAddition() {
-
         addition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (result.getText().equals("")) {
-                    clearField = true;
-                    currValue = 0;
-                    result.setText("");
-                } else {
-                    currValue = Integer.parseInt(result.getText().toString());
-                    prevValue = prevValue + currValue;
-                    result.setText(Integer.toString(prevValue));
-                    clearField = true;
+                if (turnPlusOff == false) {
+                    turnPlusOff = true;
+                    if (result.getText().equals("")) {
+                        clearField = true;
+                        currValue = 0;
+                        result.setText("");
+                    } else {
+                        currValue = Integer.parseInt(result.getText().toString());
+                        prevValue = prevValue + currValue;
+                        result.setText(Integer.toString(prevValue));
+                        clearField = true;
+                    }
                 }
             }
         });
