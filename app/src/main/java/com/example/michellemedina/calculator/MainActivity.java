@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViews();
+        result.setText(String.valueOf(0));
         setupNumbers();
         setupAddition();
         setupClearButton();
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 clearField = true;
                 prevValue = 0;
-                result.setText("");
+                result.setText(String.valueOf(0));
             }
         });
 
