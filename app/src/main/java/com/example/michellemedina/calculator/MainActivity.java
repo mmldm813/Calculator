@@ -22,9 +22,11 @@ public class MainActivity extends AppCompatActivity {
     TextView addition;
     TextView clear;
     TextView subtraction;
+    TextView equals;
 
     int prevValue = 0;
     int currValue = 0;
+    int totalValue = 0;
     boolean clearField = false;
     boolean turnPlusOff = false;
 
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setupNumbers();
         setupAddition();
         setupClearButton();
+        setupEqualButton();
 //        setupSubtraction();
 
     }
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         subtraction = findViewById(R.id.subtraction);
 
         clear = findViewById(R.id.clear);
+        equals = findViewById(R.id.equals);
 
     }
 
@@ -197,8 +201,9 @@ public class MainActivity extends AppCompatActivity {
                         result.setText("");
                     } else {
                         currValue = Integer.parseInt(result.getText().toString());
-                        prevValue = prevValue + currValue;
-                        result.setText(Integer.toString(prevValue));
+                        prevValue = 0;
+                        totalValue = prevValue + currValue;
+                        result.setText(Integer.toString(totalValue));
                         clearField = true;
                     }
                 }
@@ -225,6 +230,17 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 //    }
+
+    private void setupEqualButton() {
+        equals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currValue = Integer.parseInt(result.getText().toString());
+                totalValue = prevValue + currValue;
+                result.setText(Integer.toString(totalValue));
+            }
+        });
+    }
 
     private void setupClearButton() {
         clear.setOnClickListener(new View.OnClickListener() {
