@@ -24,11 +24,12 @@ public class MainActivity extends AppCompatActivity {
     TextView subtraction;
     TextView equals;
 
-    int prevValue = 0;
-    int currValue = 0;
-    int totalValue = 0;
+    Integer prevValue = null;
+    Integer currValue = null;
+    Integer totalValue = null;
     boolean clearField = false;
     boolean turnPlusOff = false;
+    boolean turnMinusOff = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         setupNumbers();
         setupAddition();
         setupClearButton();
-        setupEqualButton();
+//        setupEqualButton();
 //        setupSubtraction();
 
     }
 
     private void onStartSetup() {
-        if (result.getText().toString().isEmpty()) {
+        if (currValue == null) {
             result.setText(String.valueOf(0));
             clearField = true;
         }
@@ -82,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(0));
+                turnMinusOff = false;
+                currValue = 0;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -94,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(1));
+                turnMinusOff = false;
+                currValue = 1;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -106,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(2));
+                turnMinusOff = false;
+                currValue = 2;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -118,7 +125,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(3));
+                turnMinusOff = false;
+                currValue = 3;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -130,7 +139,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(4));
+                turnMinusOff = false;
+                currValue = 4;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -142,7 +153,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(5));
+                turnMinusOff = false;
+                currValue = 5;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -154,7 +167,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(6));
+                turnMinusOff = false;
+                currValue = 6;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -166,7 +181,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(7));
+                turnMinusOff = false;
+                currValue = 7;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -178,7 +195,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(8));
+                turnMinusOff = false;
+                currValue = 8;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -190,7 +209,9 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(result.getText() + String.valueOf(9));
+                turnMinusOff = false;
+                currValue = 9;
+                result.setText(result.getText() + String.valueOf(currValue));
             }
         });
 
@@ -212,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
                         totalValue = prevValue + currValue;
                         result.setText(Integer.toString(totalValue));
                         clearField = true;
+
                     }
                 }
             }
@@ -223,31 +245,36 @@ public class MainActivity extends AppCompatActivity {
 //        subtraction.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                if (result.getText().equals("")) {
-//                    clearField = true;
-//                    currValue = 0;
-//                    result.setText("");
-//                } else {
-//                    currValue = Integer.parseInt(result.getText().toString());
-//                    prevValue = prevValue - currValue;
-//                    result.setText(Integer.toString(prevValue));
-//                    clearField = true;
+//                if (turnMinusOff == false) {
+//                    turnMinusOff = true;
+//                    prevValue = totalValue;
+//                    if (result.getText().equals("")) {
+//                        clearField = true;
+//                        currValue = 0;
+//                        result.setText("");
+//                    } else {
+//                        currValue = Integer.parseInt(result.getText().toString());
+//                        totalValue = Math.abs(prevValue) - currValue;
+//                        result.setText(Integer.toString(totalValue));
+//                        clearField = true;
+//                    }
 //                }
+//
 //            }
 //        });
-
+//
 //    }
 
-    private void setupEqualButton() {
-        equals.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currValue = Integer.parseInt(result.getText().toString());
-                totalValue = prevValue + currValue;
-                result.setText(Integer.toString(totalValue));
-            }
-        });
-    }
+//    private void setupEqualButton() {
+//        equals.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                currValue = Integer.parseInt(result.getText().toString());
+//                totalValue = prevValue + currValue;
+//                result.setText(Integer.toString(totalValue));
+//            }
+//        });
+//    }
 
     private void setupClearButton() {
         clear.setOnClickListener(new View.OnClickListener() {
