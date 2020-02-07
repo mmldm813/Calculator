@@ -36,13 +36,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViews();
-//        result.setText(String.valueOf(0));
+        onStartSetup();
         setupNumbers();
         setupAddition();
         setupClearButton();
         setupEqualButton();
 //        setupSubtraction();
 
+    }
+
+    private void onStartSetup() {
+        if (result.getText().toString().isEmpty()) {
+            result.setText(String.valueOf(0));
+            clearField = true;
+        }
     }
 
     private void findViews() {
