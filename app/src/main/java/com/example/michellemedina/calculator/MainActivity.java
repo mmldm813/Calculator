@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViews();
-        result.setText(String.valueOf(0));
+//        result.setText(String.valueOf(0));
         setupNumbers();
         setupAddition();
         setupClearButton();
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(0));
+                result.setText(result.getText() + String.valueOf(0));
             }
         });
 
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(1));
+                result.setText(result.getText() + String.valueOf(1));
             }
         });
 
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(2));
+                result.setText(result.getText() + String.valueOf(2));
             }
         });
 
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(3));
+                result.setText(result.getText() + String.valueOf(3));
             }
         });
 
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(4));
+                result.setText(result.getText() + String.valueOf(4));
             }
         });
 
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(5));
+                result.setText(result.getText() + String.valueOf(5));
             }
         });
 
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(6));
+                result.setText(result.getText() + String.valueOf(6));
             }
         });
 
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(7));
+                result.setText(result.getText() + String.valueOf(7));
             }
         });
 
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(8));
+                result.setText(result.getText() + String.valueOf(8));
             }
         });
 
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                     clearField = false;
                 }
                 turnPlusOff = false;
-                result.setText(String.valueOf(9));
+                result.setText(result.getText() + String.valueOf(9));
             }
         });
 
@@ -195,13 +195,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (turnPlusOff == false) {
                     turnPlusOff = true;
+                    prevValue = totalValue;
                     if (result.getText().equals("")) {
                         clearField = true;
                         currValue = 0;
                         result.setText("");
                     } else {
                         currValue = Integer.parseInt(result.getText().toString());
-                        prevValue = 0;
                         totalValue = prevValue + currValue;
                         result.setText(Integer.toString(totalValue));
                         clearField = true;
@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clearField = true;
-                prevValue = 0;
+                totalValue = 0;
                 result.setText(String.valueOf(0));
             }
         });
