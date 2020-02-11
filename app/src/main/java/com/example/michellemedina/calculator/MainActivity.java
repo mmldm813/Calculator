@@ -229,8 +229,7 @@ public class MainActivity extends AppCompatActivity {
                         currValue = 0;
                         result.setText("");
                     } else {
-                        currValue = Integer.parseInt(result.getText().toString());
-                        totalValue = prevValue + currValue;
+                        totalValue = (prevValue == null ? 0 : prevValue)  + (currValue == null ? 0 : currValue);
                         result.setText(Integer.toString(totalValue));
                         clearField = true;
 
