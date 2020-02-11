@@ -2,10 +2,17 @@ package com.example.michellemedina.calculator;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.IllegalFormatCodePointException;
+
 public class MainActivity extends AppCompatActivity {
+
+    private enum OperandType {
+        ADDITION, SUBTRACTION, DIVISION, MULTIPLICATION
+    }
 
     TextView numb0;
     TextView numb1;
@@ -31,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     boolean turnPlusOff = false;
     boolean turnMinusOff = false;
 
+    OperandType lastOperand;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setupNumbers();
         setupAddition();
         setupClearButton();
-//        setupEqualButton();
+        setupEqualButton();
 //        setupSubtraction();
 
     }
@@ -229,7 +238,8 @@ public class MainActivity extends AppCompatActivity {
                         currValue = 0;
                         result.setText("");
                     } else {
-                        totalValue = (prevValue == null ? 0 : prevValue)  + (currValue == null ? 0 : currValue);
+                        lastOperand = OperandType.ADDITION;
+                        totalValue = (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
                         result.setText(Integer.toString(totalValue));
                         clearField = true;
 
@@ -264,16 +274,18 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
-//    private void setupEqualButton() {
-//        equals.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                currValue = Integer.parseInt(result.getText().toString());
-//                totalValue = prevValue + currValue;
-//                result.setText(Integer.toString(totalValue));
-//            }
-//        });
-//    }
+    private void setupEqualButton() {
+        equals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lastOperand == OperandType.ADDITION) {
+                    totalValue += currValue;
+                    result.setText(Integer.toString(totalValue));
+                    clearField = true;
+                }
+            }
+        });
+    }
 
     private void setupClearButton() {
         clear.setOnClickListener(new View.OnClickListener() {
