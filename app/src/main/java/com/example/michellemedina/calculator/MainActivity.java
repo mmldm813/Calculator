@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 0;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "0");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 1;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "1");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 2;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "2");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
@@ -126,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 3;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "3");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 4;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "4");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
@@ -154,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 5;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "5");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
@@ -168,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 6;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "6");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
@@ -182,8 +182,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 7;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "7");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
@@ -196,8 +196,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 8;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "8");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
@@ -210,8 +210,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
-                currValue = 9;
-                result.setText(result.getText() + String.valueOf(currValue));
+                result.setText(result.getText() + "9");
+                currValue = Integer.parseInt(result.getText().toString());
             }
         });
 
