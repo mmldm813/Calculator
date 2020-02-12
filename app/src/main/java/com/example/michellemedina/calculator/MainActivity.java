@@ -82,15 +82,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void turnOnAndOffOperands(boolean turnOperandOff) {
+        if (turnOperandOff == false) {
+            turnOperandOff = true;
+            prevValue = currValue;
+            currValue = null;
+    }
 
-    private void setupAddition() {
-        addition.setOnClickListener(new View.OnClickListener() {
+    private void setupOperands(int idOperand, OperandType lastOperand) {
+            findViewById(idOperand).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (turnPlusOff == false) {
-                    turnPlusOff = true;
-                    prevValue = currValue;
-                    currValue = null;
                     if (result.getText().equals("")) {
                         clearField = true;
                         currValue = 0;
@@ -104,12 +106,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                         result.setText(Integer.toString(totalValue));
                         clearField = true;
-                    }
+
                 }
             }
         });
-
     }
+
+
+
 
     private void setupSubtraction() {
         subtraction.setOnClickListener(new View.OnClickListener() {
