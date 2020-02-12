@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setupAddition();
         setupClearButton();
         setupEqualButton();
-//        setupSubtraction();
+        setupSubtraction();
 
     }
 
@@ -232,14 +232,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (turnPlusOff == false) {
                     turnPlusOff = true;
-                    prevValue = totalValue;
+                    prevValue = currValue;
+                    currValue = null;
                     if (result.getText().equals("")) {
                         clearField = true;
                         currValue = 0;
                         result.setText("");
                     } else {
                         lastOperand = OperandType.ADDITION;
-                        totalValue = (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
+                        if (totalValue == null) {
+                            totalValue =  (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
+                        } else {
+                            totalValue = totalValue + (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
+                        }
+//                        totalValue = (totalValue == null ? 0 : totalValue) + (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
                         result.setText(Integer.toString(totalValue));
                         clearField = true;
 
@@ -250,29 +256,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private void setupSubtraction() {
-//        subtraction.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (turnMinusOff == false) {
-//                    turnMinusOff = true;
-//                    prevValue = totalValue;
-//                    if (result.getText().equals("")) {
-//                        clearField = true;
-//                        currValue = 0;
-//                        result.setText("");
-//                    } else {
-//                        currValue = Integer.parseInt(result.getText().toString());
-//                        totalValue = Math.abs(prevValue) - currValue;
-//                        result.setText(Integer.toString(totalValue));
-//                        clearField = true;
-//                    }
-//                }
-//
-//            }
-//        });
-//
-//    }
+    private void setupSubtraction() {
+        subtraction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (turnMinusOff == false) {
+                    turnMinusOff = true;
+                    prevValue = currValue;
+                    currValue = null;
+                    if (result.getText().equals("")) {
+                        clearField = true;
+                        currValue = 0;
+                        result.setText("");
+                    } else {
+                        lastOperand = OperandType.SUBTRACTION;
+                        if (totalValue == null) {
+                            totalValue =  (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
+                        } else {
+                            totalValue = totalValue - (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
+                        }
+                        result.setText(Integer.toString(totalValue));
+                        clearField = true;
+                    }
+                }
+
+            }
+        });
+
+    }
 
     private void setupEqualButton() {
         equals.setOnClickListener(new View.OnClickListener() {
@@ -292,7 +303,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clearField = true;
-                totalValue = 0;
+                totalValue = null;
+                prevValue = null;
+                currValue = null;
                 result.setText(String.valueOf(0));
             }
         });
