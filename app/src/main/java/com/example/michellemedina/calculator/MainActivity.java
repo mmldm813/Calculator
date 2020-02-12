@@ -294,6 +294,11 @@ public class MainActivity extends AppCompatActivity {
                     result.setText(Integer.toString(totalValue));
                     clearField = true;
                 }
+                if (lastOperand == OperandType.SUBTRACTION) {
+                    totalValue -= currValue;
+                    result.setText(Integer.toString(totalValue));
+                    clearField = true;
+                }
             }
         });
     }
