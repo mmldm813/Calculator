@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViews();
         onStartSetup();
-        setupAddition();
+//        setupAddition();
         setupClearButton();
         setupEqualButton();
         setupSubtraction();
@@ -58,8 +58,10 @@ public class MainActivity extends AppCompatActivity {
         setupNumberListener(R.id.numb8, 8);
         setupNumberListener(R.id.numb9, 9);
 
+        setLastOperand(R.id.addition, OperandType.ADDITION);
+//        setLastOperand(R.id.subtraction, OperandType.SUBTRACTION);
+
         result = findViewById(R.id.result);
-        addition = findViewById(R.id.addition);
         subtraction = findViewById(R.id.subtraction);
 
         clear = findViewById(R.id.clear);
@@ -82,38 +84,72 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void turnOnAndOffOperands(boolean turnOperandOff) {
-        if (turnOperandOff == false) {
-            turnOperandOff = true;
-            prevValue = currValue;
-            currValue = null;
-    }
-
-    private void setupOperands(int idOperand, OperandType lastOperand) {
-            findViewById(idOperand).setOnClickListener(new View.OnClickListener() {
+    private void setLastOperand(int id, final OperandType lastOperandType) {
+        findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (turnPlusOff == false || turnMinusOff == false) {
+                    turnPlusOff = true;
+//                    turnMinusOff = true;
+                    prevValue = currValue;
+                    currValue = null;
                     if (result.getText().equals("")) {
                         clearField = true;
                         currValue = 0;
                         result.setText("");
                     } else {
-                        lastOperand = OperandType.ADDITION;
-                        if (totalValue == null) {
-                            totalValue =  (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
-                        } else {
-                            totalValue = totalValue + (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
+                        lastOperand = lastOperandType;
+                        switch (lastOperand) {
+                            case ADDITION:
+                                if (totalValue == null) {
+                                    totalValue = (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
+                                } else {
+                                    totalValue = totalValue + (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
+                                }
+                                break;
+//                            case SUBTRACTION:
+//                                if (totalValue == null) {
+//                                    totalValue =  (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
+//                                } else {
+//                                    totalValue = totalValue - (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
+//                                }
+//                                break;
                         }
                         result.setText(Integer.toString(totalValue));
                         clearField = true;
-
+                    }
                 }
             }
         });
     }
 
-
-
+//    private void setupAddition() {
+//        addition.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (turnPlusOff == false) {
+//                    turnPlusOff = true;
+//                    prevValue = currValue;
+//                    currValue = null;
+//                    if (result.getText().equals("")) {
+//                        clearField = true;
+//                        currValue = 0;
+//                        result.setText("");
+//                    } else {
+//                        lastOperand = OperandType.ADDITION;
+//                        if (totalValue == null) {
+//                            totalValue =  (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
+//                        } else {
+//                            totalValue = totalValue + (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
+//                        }
+//                        result.setText(Integer.toString(totalValue));
+//                        clearField = true;
+//                    }
+//                }
+//            }
+//        });
+//
+//    }
 
     private void setupSubtraction() {
         subtraction.setOnClickListener(new View.OnClickListener() {
