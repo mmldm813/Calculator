@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     boolean clearField = false;
     boolean turnPlusOff = false;
     boolean turnMinusOff = false;
+    boolean turnMultiplicationOff = false;
 
     OperandType lastOperand;
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         setLastOperand(R.id.addition, OperandType.ADDITION);
         setLastOperand(R.id.subtraction, OperandType.SUBTRACTION);
+        setLastOperand(R.id.multiplication, OperandType.MULTIPLICATION);
 
         result = findViewById(R.id.result);
         subtraction = findViewById(R.id.subtraction);
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
+                turnMultiplicationOff = false;
                 result.setText(result.getText() + String.valueOf(number));
                 currValue = Integer.parseInt(result.getText().toString());
             }
@@ -85,9 +88,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (turnPlusOff == false || turnMinusOff == false) {
+                if (turnPlusOff == false || turnMinusOff == false || turnMultiplicationOff == false) {
                     turnPlusOff = true;
                     turnMinusOff = true;
+                    turnMultiplicationOff = true;
                     prevValue = currValue;
                     currValue = null;
                     if (result.getText().equals("")) {
@@ -113,6 +117,14 @@ public class MainActivity extends AppCompatActivity {
                                     totalValue = totalValue - (currValue == null ? 0 : currValue);
                                 }
                                 break;
+                            case MULTIPLICATION:
+                                if (totalValue == null) {
+                                    totalValue = (prevValue == null ? 1 : prevValue) * (currValue == null ? 1 : currValue);
+                                } else {
+                                    prevValue = null;
+                                    totalValue = totalValue * (currValue == null ? 0 : currValue);
+                                }
+                                break;
                         }
                         result.setText(Integer.toString(totalValue));
                         clearField = true;
@@ -135,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                     case SUBTRACTION:
                         totalValue = total - curr;
                         break;
+                    case MULTIPLICATION:
+                        totalValue = total * curr;
                 }
                 result.setText(Integer.toString(totalValue));
                 clearField = true;
