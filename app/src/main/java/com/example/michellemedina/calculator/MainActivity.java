@@ -13,13 +13,13 @@ public class MainActivity extends AppCompatActivity {
 
     TextView result;
     TextView clear;
-    TextView subtraction;
     TextView equals;
 
-    Integer prevValue = null;
-    Integer currValue = null;
-    Integer totalValue = null;
-    boolean clearField = false;
+    Double prevValue = null;
+    Double currValue = null;
+    Double totalValue = null;
+
+    boolean clearResultField = false;
     boolean turnPlusOff = false;
     boolean turnMinusOff = false;
     boolean turnMultiplicationOff = false;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private void onStartSetup() {
         if (currValue == null) {
             result.setText(String.valueOf(0));
-            clearField = true;
+            clearResultField = true;
         }
     }
 
@@ -60,28 +60,45 @@ public class MainActivity extends AppCompatActivity {
         setLastOperand(R.id.addition, OperandType.ADDITION);
         setLastOperand(R.id.subtraction, OperandType.SUBTRACTION);
         setLastOperand(R.id.multiplication, OperandType.MULTIPLICATION);
+        setLastOperand(R.id.division, OperandType.DIVISION);
 
         result = findViewById(R.id.result);
-        subtraction = findViewById(R.id.subtraction);
 
         clear = findViewById(R.id.clear);
         equals = findViewById(R.id.equals);
+        addingDecimal(R.id.decimal);
     }
 
     private void setupNumberListener(int id, final int number) {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (clearField) {
+                if (clearResultField) {
                     result.setText("");
-                    clearField = false;
+                    clearResultField = false;
                 }
                 turnPlusOff = false;
                 turnMinusOff = false;
                 turnMultiplicationOff = false;
                 turnDivisionOff = false;
                 result.setText(result.getText() + String.valueOf(number));
-                currValue = Integer.parseInt(result.getText().toString());
+                currValue = Double.parseDouble(result.getText().toString());
+            }
+        });
+    }
+
+    private void addingDecimal(int id) {
+        findViewById(id).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clearResultField) {
+                    result.setText("");
+                    clearResultField = false;
+                }
+                if (!result.getText().toString().contains(".")) {
+                    result.setText(result.getText() + (result.getText().equals("") ? "0." : "."));
+                    currValue = Double.parseDouble(result.getText().toString());
+                }
             }
         });
     }
@@ -90,15 +107,17 @@ public class MainActivity extends AppCompatActivity {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (turnPlusOff == false || turnMinusOff == false || turnMultiplicationOff == false) {
+                if (turnPlusOff == false || turnMinusOff == false || turnMultiplicationOff == false
+                        || turnDivisionOff == false) {
                     turnPlusOff = true;
                     turnMinusOff = true;
                     turnMultiplicationOff = true;
+                    turnDivisionOff = true;
                     prevValue = currValue;
                     currValue = null;
                     if (result.getText().equals("")) {
-                        clearField = true;
-                        currValue = 0;
+                        clearResultField = true;
+                        currValue = 0.0;
                         result.setText("");
                     } else {
                         lastOperand = lastOperandType;
@@ -127,9 +146,18 @@ public class MainActivity extends AppCompatActivity {
                                     totalValue = totalValue * (currValue == null ? 1 : currValue);
                                 }
                                 break;
+                            case DIVISION:
+                                if (totalValue == null) {
+                                    totalValue = (prevValue == null ? 1 : prevValue) / (currValue == null ? 1 : currValue);
+                                } else {
+                                    prevValue = null;
+                                    totalValue = totalValue / (currValue == null ? 1 : currValue);
+                                }
+                                break;
+
                         }
-                        result.setText(Integer.toString(totalValue));
-                        clearField = true;
+                        result.setText(Double.toString(totalValue));
+                        clearResultField = true;
                     }
                 }
             }
@@ -140,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
         equals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int total = totalValue == null ? 0 : totalValue;
-                int curr = currValue == null ? 0 : currValue;
+                double total = totalValue == null ? 0 : totalValue;
+                double curr = currValue == null ? 0 : currValue;
                 switch (lastOperand) {
                     case ADDITION:
                         totalValue = total + curr;
@@ -151,9 +179,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case MULTIPLICATION:
                         totalValue = total * curr;
+                    case DIVISION:
+                        totalValue = total / curr;
                 }
-                result.setText(Integer.toString(totalValue));
-                clearField = true;
+                result.setText(Double.toString(totalValue));
+                clearResultField = true;
             }
         });
     }
@@ -162,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearField = true;
+                clearResultField = true;
                 totalValue = null;
                 prevValue = null;
                 currValue = null;
