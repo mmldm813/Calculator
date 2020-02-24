@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case SUBTRACTION:
                                 if (totalValue == null) {
-                                    totalValue =  (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
+                                    totalValue = (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
                                 } else {
                                     prevValue = null;
                                     totalValue = totalValue - (currValue == null ? 0 : currValue);
@@ -156,7 +156,11 @@ public class MainActivity extends AppCompatActivity {
                                 break;
 
                         }
-                        result.setText(Double.toString(totalValue));
+                        if (totalValue.toString().endsWith(".0")) {
+                            result.setText(String.valueOf(totalValue.intValue()));
+                        } else {
+                            result.setText(Double.toString(totalValue));
+                        }
                         clearResultField = true;
                     }
                 }
@@ -179,10 +183,16 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case MULTIPLICATION:
                         totalValue = total * curr;
+                        break;
                     case DIVISION:
                         totalValue = total / curr;
+                        break;
                 }
-                result.setText(Double.toString(totalValue));
+                if (totalValue.toString().endsWith(".0")) {
+                    result.setText(String.valueOf(totalValue.intValue()));
+                } else {
+                    result.setText(Double.toString(totalValue));
+                }
                 clearResultField = true;
             }
         });
