@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     boolean turnPlusOff = false;
     boolean turnMinusOff = false;
     boolean turnMultiplicationOff = false;
+    boolean turnDivisionOff = false;
 
     OperandType lastOperand;
 
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 turnPlusOff = false;
                 turnMinusOff = false;
                 turnMultiplicationOff = false;
+                turnDivisionOff = false;
                 result.setText(result.getText() + String.valueOf(number));
                 currValue = Integer.parseInt(result.getText().toString());
             }
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                     totalValue = (prevValue == null ? 1 : prevValue) * (currValue == null ? 1 : currValue);
                                 } else {
                                     prevValue = null;
-                                    totalValue = totalValue * (currValue == null ? 0 : currValue);
+                                    totalValue = totalValue * (currValue == null ? 1 : currValue);
                                 }
                                 break;
                         }
