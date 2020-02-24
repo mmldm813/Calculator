@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         clear = findViewById(R.id.clear);
         equals = findViewById(R.id.equals);
         addingDecimal(R.id.decimal);
+        addingNegative(R.id.negative);
     }
 
     private void setupNumberListener(int id, final int number) {
@@ -97,6 +98,22 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (!result.getText().toString().contains(".")) {
                     result.setText(result.getText() + (result.getText().equals("") ? "0." : "."));
+                    currValue = Double.parseDouble(result.getText().toString());
+                }
+            }
+        });
+    }
+
+    private void addingNegative(int id) {
+        findViewById(id).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clearResultField) {
+                    result.setText("");
+                    clearResultField = false;
+                }
+                if (!result.getText().toString().contains("-")) {
+                    result.setText("-" + result.getText());
                     currValue = Double.parseDouble(result.getText().toString());
                 }
             }
