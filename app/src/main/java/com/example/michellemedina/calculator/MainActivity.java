@@ -8,7 +8,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private enum OperandType {
-        ADDITION, SUBTRACTION, DIVISION, MULTIPLICATION
+        ADDITION, SUBTRACTION, DIVISION, MULTIPLICATION, PERCENT
     }
 
     TextView result;
@@ -18,12 +18,14 @@ public class MainActivity extends AppCompatActivity {
     Double prevValue = null;
     Double currValue = null;
     Double totalValue = null;
+//    Double totalValueLastOperand = null;
 
     boolean clearResultField = false;
     boolean turnPlusOff = false;
     boolean turnMinusOff = false;
     boolean turnMultiplicationOff = false;
     boolean turnDivisionOff = false;
+    boolean turnPercentOff = false;
 
     OperandType lastOperand;
 
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         setLastOperand(R.id.subtraction, OperandType.SUBTRACTION);
         setLastOperand(R.id.multiplication, OperandType.MULTIPLICATION);
         setLastOperand(R.id.division, OperandType.DIVISION);
+//        setLastOperand(R.id.percent, OperandType.PERCENT);
 
         result = findViewById(R.id.result);
 
@@ -125,11 +128,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (turnPlusOff == false || turnMinusOff == false || turnMultiplicationOff == false
-                        || turnDivisionOff == false) {
+                        || turnDivisionOff == false || turnPercentOff == false) {
                     turnPlusOff = true;
                     turnMinusOff = true;
                     turnMultiplicationOff = true;
                     turnDivisionOff = true;
+//                    turnPercentOff = true;
                     prevValue = currValue;
                     currValue = null;
                     if (result.getText().equals("")) {
@@ -143,16 +147,14 @@ public class MainActivity extends AppCompatActivity {
                                 if (totalValue == null) {
                                     totalValue = (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
                                 } else {
-                                    prevValue = null;
-                                    totalValue = totalValue + (currValue == null ? 0 : currValue);
+                                    totalValue = totalValue + (prevValue == null ? 0 : prevValue);
                                 }
                                 break;
                             case SUBTRACTION:
                                 if (totalValue == null) {
                                     totalValue = (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
                                 } else {
-                                    prevValue = null;
-                                    totalValue = totalValue - (currValue == null ? 0 : currValue);
+                                    totalValue = totalValue - (prevValue == null ? 0 : prevValue);
                                 }
                                 break;
                             case MULTIPLICATION:
@@ -204,6 +206,9 @@ public class MainActivity extends AppCompatActivity {
                     case DIVISION:
                         totalValue = total / curr;
                         break;
+//                    case PERCENT:
+//                        totalValue = total * (prevValue/100);
+//                        break;
                 }
                 if (totalValue.toString().endsWith(".0")) {
                     result.setText(String.valueOf(totalValue.intValue()));
