@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     Double prevValue = null;
     Double currValue = null;
     Double totalValue = null;
-//    Double totalValueLastOperand = null;
 
     boolean clearResultField = false;
     boolean turnPlusOff = false;
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     boolean turnDivisionOff = false;
     boolean turnPercentOff = false;
 
-    OperandType lastOperand;
+    OperandType prevOperand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
         setupNumberListener(R.id.numb8, 8);
         setupNumberListener(R.id.numb9, 9);
 
-        setLastOperand(R.id.addition, OperandType.ADDITION);
-        setLastOperand(R.id.subtraction, OperandType.SUBTRACTION);
-        setLastOperand(R.id.multiplication, OperandType.MULTIPLICATION);
-        setLastOperand(R.id.division, OperandType.DIVISION);
-//        setLastOperand(R.id.percent, OperandType.PERCENT);
+        performMath(R.id.addition, OperandType.ADDITION);
+        performMath(R.id.subtraction, OperandType.SUBTRACTION);
+        performMath(R.id.multiplication, OperandType.MULTIPLICATION);
+        performMath(R.id.division, OperandType.DIVISION);
+//        performMath(R.id.percent, OperandType.PERCENT);
 
         result = findViewById(R.id.result);
 
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setLastOperand(int id, final OperandType lastOperandType) {
+    private void performMath(int id, final OperandType operand) {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,45 +140,48 @@ public class MainActivity extends AppCompatActivity {
                         currValue = 0.0;
                         result.setText("");
                     } else {
-                        lastOperand = lastOperandType;
-                        switch (lastOperand) {
-                            case ADDITION:
-                                if (totalValue == null) {
-                                    totalValue = (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
-                                } else {
-                                    totalValue = totalValue + (prevValue == null ? 0 : prevValue);
-                                }
-                                break;
-                            case SUBTRACTION:
-                                if (totalValue == null) {
-                                    totalValue = (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
-                                } else {
-                                    totalValue = totalValue - (prevValue == null ? 0 : prevValue);
-                                }
-                                break;
-                            case MULTIPLICATION:
-                                if (totalValue == null) {
-                                    totalValue = (prevValue == null ? 1 : prevValue) * (currValue == null ? 1 : currValue);
-                                } else {
-                                    prevValue = null;
-                                    totalValue = totalValue * (currValue == null ? 1 : currValue);
-                                }
-                                break;
-                            case DIVISION:
-                                if (totalValue == null) {
-                                    totalValue = (prevValue == null ? 1 : prevValue) / (currValue == null ? 1 : currValue);
-                                } else {
-                                    prevValue = null;
-                                    totalValue = totalValue / (currValue == null ? 1 : currValue);
-                                }
-                                break;
-
+                        if (prevOperand == null) {
+                            totalValue = prevValue;
+                        } else {
+                            switch (prevOperand) {
+                                case ADDITION:
+                                    if (totalValue == null) {
+                                        totalValue = (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
+                                    } else {
+                                        totalValue = totalValue + (prevValue == null ? 0 : prevValue);
+                                    }
+                                    break;
+                                case SUBTRACTION:
+                                    if (totalValue == null) {
+                                        totalValue = (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
+                                    } else {
+                                        totalValue = totalValue - (prevValue == null ? 0 : prevValue);
+                                    }
+                                    break;
+                                case MULTIPLICATION:
+                                    if (totalValue == null) {
+                                        totalValue = (prevValue == null ? 1 : prevValue) * (currValue == null ? 1 : currValue);
+                                    } else {
+                                        prevValue = null;
+                                        totalValue = totalValue * (currValue == null ? 1 : currValue);
+                                    }
+                                    break;
+                                case DIVISION:
+                                    if (totalValue == null) {
+                                        totalValue = (prevValue == null ? 1 : prevValue) / (currValue == null ? 1 : currValue);
+                                    } else {
+                                        prevValue = null;
+                                        totalValue = totalValue / (currValue == null ? 1 : currValue);
+                                    }
+                                    break;
+                            }
                         }
                         if (totalValue.toString().endsWith(".0")) {
                             result.setText(String.valueOf(totalValue.intValue()));
                         } else {
                             result.setText(Double.toString(totalValue));
                         }
+                        prevOperand = operand;
                         clearResultField = true;
                     }
                 }
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 double total = totalValue == null ? 0 : totalValue;
                 double curr = currValue == null ? 0 : currValue;
-                switch (lastOperand) {
+                switch (prevOperand) {
                     case ADDITION:
                         totalValue = total + curr;
                         break;
