@@ -162,16 +162,14 @@ public class MainActivity extends AppCompatActivity {
                                     if (totalValue == null) {
                                         totalValue = (prevValue == null ? 1 : prevValue) * (currValue == null ? 1 : currValue);
                                     } else {
-                                        prevValue = null;
-                                        totalValue = totalValue * (currValue == null ? 1 : currValue);
+                                        totalValue = totalValue * (prevValue == null ? 1 : prevValue);
                                     }
                                     break;
                                 case DIVISION:
                                     if (totalValue == null) {
                                         totalValue = (prevValue == null ? 1 : prevValue) / (currValue == null ? 1 : currValue);
                                     } else {
-                                        prevValue = null;
-                                        totalValue = totalValue / (currValue == null ? 1 : currValue);
+                                        totalValue = totalValue / (prevValue == null ? 1 : prevValue);
                                     }
                                     break;
                             }
