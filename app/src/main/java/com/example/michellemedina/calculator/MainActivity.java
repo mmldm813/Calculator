@@ -5,42 +5,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import static com.example.michellemedina.calculator.Calculations.OperandType.ADDITION;
+import static com.example.michellemedina.calculator.Calculations.OperandType.MULTIPLICATION;
+import static com.example.michellemedina.calculator.Calculations.OperandType.SUBTRACTION;
+import static com.example.michellemedina.calculator.Calculations.OperandType.DIVISION;
+
 public class MainActivity extends AppCompatActivity {
 
-    private enum OperandType {
-        ADDITION, SUBTRACTION, DIVISION, MULTIPLICATION, PERCENT
-    }
+    private TextView result;
+    private TextView clear;
 
-    TextView result;
-    TextView clear;
-    TextView equals;
+    private boolean clearResultField;
+    private boolean turnPlusOff;
+    private boolean turnMinusOff;
+    private boolean turnMultiplicationOff;
+    private boolean turnDivisionOff;
+    private boolean turnPercentOff;
 
-    Double prevValue = null;
-    Double currValue = null;
-    Double totalValue = null;
-
-    boolean clearResultField = false;
-    boolean turnPlusOff = false;
-    boolean turnMinusOff = false;
-    boolean turnMultiplicationOff = false;
-    boolean turnDivisionOff = false;
-    boolean turnPercentOff = false;
-
-    OperandType prevOperand;
+    private Calculations calculations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        calculations = new Calculations();
 
         findViews();
         onStartSetup();
         setupClearButton();
         setupEqualButton();
+
     }
 
     private void onStartSetup() {
-        if (currValue == null) {
+        if (calculations.getCurrValue() == null) {
             result.setText(String.valueOf(0));
             clearResultField = true;
         }
@@ -58,16 +56,15 @@ public class MainActivity extends AppCompatActivity {
         setupNumberListener(R.id.numb8, 8);
         setupNumberListener(R.id.numb9, 9);
 
-        performMath(R.id.addition, OperandType.ADDITION);
-        performMath(R.id.subtraction, OperandType.SUBTRACTION);
-        performMath(R.id.multiplication, OperandType.MULTIPLICATION);
-        performMath(R.id.division, OperandType.DIVISION);
-//        performMath(R.id.percent, OperandType.PERCENT);
+        executeOperation(R.id.addition, ADDITION);
+        executeOperation(R.id.subtraction, SUBTRACTION);
+        executeOperation(R.id.multiplication, MULTIPLICATION);
+        executeOperation(R.id.division, DIVISION);
+//        executeOperation(R.id.percent, OperandType.PERCENT);
 
         result = findViewById(R.id.result);
-
         clear = findViewById(R.id.clear);
-        equals = findViewById(R.id.equals);
+
         addingDecimal(R.id.decimal);
         addingNegative(R.id.negative);
     }
@@ -85,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 turnMultiplicationOff = false;
                 turnDivisionOff = false;
                 result.setText(result.getText() + String.valueOf(number));
-                currValue = Double.parseDouble(result.getText().toString());
+                calculations.setCurrValue(result.getText().toString());
             }
         });
     }
@@ -100,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (!result.getText().toString().contains(".")) {
                     result.setText(result.getText() + (result.getText().equals("") ? "0." : "."));
-                    currValue = Double.parseDouble(result.getText().toString());
+                    calculations.setCurrValue(result.getText().toString());
                 }
             }
         });
@@ -116,70 +113,29 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (!result.getText().toString().contains("-")) {
                     result.setText("-" + result.getText());
-                    currValue = Double.parseDouble(result.getText().toString());
+                    calculations.setCurrValue(result.getText().toString());
                 }
             }
         });
     }
 
-    private void performMath(int id, final OperandType operand) {
+    void executeOperation(int id, final Calculations.OperandType operand) {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (turnPlusOff == false || turnMinusOff == false || turnMultiplicationOff == false
-                        || turnDivisionOff == false || turnPercentOff == false) {
+                if (!turnPlusOff || !turnMinusOff || !turnMultiplicationOff
+                        || !turnDivisionOff || !turnPercentOff) {
                     turnPlusOff = true;
                     turnMinusOff = true;
                     turnMultiplicationOff = true;
                     turnDivisionOff = true;
 //                    turnPercentOff = true;
-                    prevValue = currValue;
-                    currValue = null;
                     if (result.getText().equals("")) {
                         clearResultField = true;
-                        currValue = 0.0;
+                        calculations.setCurrValue(0.0);
                         result.setText("");
                     } else {
-                        if (prevOperand == null) {
-                            totalValue = prevValue;
-                        } else {
-                            switch (prevOperand) {
-                                case ADDITION:
-                                    if (totalValue == null) {
-                                        totalValue = (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
-                                    } else {
-                                        totalValue = totalValue + (prevValue == null ? 0 : prevValue);
-                                    }
-                                    break;
-                                case SUBTRACTION:
-                                    if (totalValue == null) {
-                                        totalValue = (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
-                                    } else {
-                                        totalValue = totalValue - (prevValue == null ? 0 : prevValue);
-                                    }
-                                    break;
-                                case MULTIPLICATION:
-                                    if (totalValue == null) {
-                                        totalValue = (prevValue == null ? 1 : prevValue) * (currValue == null ? 1 : currValue);
-                                    } else {
-                                        totalValue = totalValue * (prevValue == null ? 1 : prevValue);
-                                    }
-                                    break;
-                                case DIVISION:
-                                    if (totalValue == null) {
-                                        totalValue = (prevValue == null ? 1 : prevValue) / (currValue == null ? 1 : currValue);
-                                    } else {
-                                        totalValue = totalValue / (prevValue == null ? 1 : prevValue);
-                                    }
-                                    break;
-                            }
-                        }
-                        if (totalValue.toString().endsWith(".0")) {
-                            result.setText(String.valueOf(totalValue.intValue()));
-                        } else {
-                            result.setText(Double.toString(totalValue));
-                        }
-                        prevOperand = operand;
+                        result.setText(calculations.performMath(operand));
                         clearResultField = true;
                     }
                 }
@@ -187,34 +143,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setupEqualButton() {
-        equals.setOnClickListener(new View.OnClickListener() {
+    void setupEqualButton() {
+        findViewById(R.id.equals).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double total = totalValue == null ? 0 : totalValue;
-                double curr = currValue == null ? 0 : currValue;
-                switch (prevOperand) {
-                    case ADDITION:
-                        totalValue = total + curr;
-                        break;
-                    case SUBTRACTION:
-                        totalValue = total - curr;
-                        break;
-                    case MULTIPLICATION:
-                        totalValue = total * curr;
-                        break;
-                    case DIVISION:
-                        totalValue = total / curr;
-                        break;
-//                    case PERCENT:
-//                        totalValue = total * (prevValue/100);
-//                        break;
-                }
-                if (totalValue.toString().endsWith(".0")) {
-                    result.setText(String.valueOf(totalValue.intValue()));
-                } else {
-                    result.setText(Double.toString(totalValue));
-                }
+                result.setText(calculations.performEqual());
                 clearResultField = true;
             }
         });
@@ -225,9 +158,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clearResultField = true;
-                totalValue = null;
-                prevValue = null;
-                currValue = null;
+                calculations.clearAllFields();
                 result.setText(String.valueOf(0));
             }
         });
