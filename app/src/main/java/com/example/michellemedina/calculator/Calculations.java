@@ -1,6 +1,9 @@
 package com.example.michellemedina.calculator;
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Calculations {
 
     enum OperandType {
@@ -9,53 +12,72 @@ public class Calculations {
 
     private OperandType prevOperand;
 
-    private Double prevValue;
-    private Double currValue;
-    private Double totalValue;
+    private BigDecimal prevValue;
+    private BigDecimal currValue;
+    private BigDecimal totalValue;
+
+    private BigDecimal one = new BigDecimal(1);
+    private BigDecimal zero = new BigDecimal(0);
+    private BigDecimal oneHundred = new BigDecimal(100);
 
     public String performMath(final OperandType operand) {
         String result;
         prevValue = currValue;
         currValue = null;
-        if (prevOperand == null) {
-            totalValue = prevValue;
+
+        if (operand == OperandType.PERCENT) {
+            if (totalValue == null) {
+                totalValue = (prevValue == null ? one : prevValue)
+                        .multiply((currValue == null ? one : currValue).divide(oneHundred));
+            } else {
+                totalValue = totalValue
+                        .multiply((prevValue == null ? one : prevValue).divide(oneHundred));
+            }
         } else {
-            switch (prevOperand) {
-                case ADDITION:
-                    if (totalValue == null) {
-                        totalValue = (prevValue == null ? 0 : prevValue) + (currValue == null ? 0 : currValue);
-                    } else {
-                        totalValue = totalValue + (prevValue == null ? 0 : prevValue);
-                    }
-                    break;
-                case SUBTRACTION:
-                    if (totalValue == null) {
-                        totalValue = (prevValue == null ? 0 : prevValue) - (currValue == null ? 0 : currValue);
-                    } else {
-                        totalValue = totalValue - (prevValue == null ? 0 : prevValue);
-                    }
-                    break;
-                case MULTIPLICATION:
-                    if (totalValue == null) {
-                        totalValue = (prevValue == null ? 1 : prevValue) * (currValue == null ? 1 : currValue);
-                    } else {
-                        totalValue = totalValue * (prevValue == null ? 1 : prevValue);
-                    }
-                    break;
-                case DIVISION:
-                    if (totalValue == null) {
-                        totalValue = (prevValue == null ? 1 : prevValue) / (currValue == null ? 1 : currValue);
-                    } else {
-                        totalValue = totalValue / (prevValue == null ? 1 : prevValue);
-                    }
-                    break;
+            if (prevOperand == null) {
+                totalValue = prevValue;
+            } else {
+                switch (prevOperand) {
+                    case ADDITION:
+                        if (totalValue == null) {
+                            totalValue = (prevValue == null ? zero : prevValue)
+                                    .add(currValue == null ? zero : currValue);
+                        } else {
+                            totalValue = totalValue.add(prevValue == null ? zero : prevValue);
+                        }
+                        break;
+                    case SUBTRACTION:
+                        if (totalValue == null) {
+                            totalValue = (prevValue == null ? zero : prevValue)
+                                    .subtract(currValue == null ? zero : currValue);
+                        } else {
+                            totalValue = totalValue.subtract(prevValue == null ? zero : prevValue);
+                        }
+                        break;
+                    case MULTIPLICATION:
+                        if (totalValue == null) {
+                            totalValue = (prevValue == null ? one : prevValue)
+                                    .multiply(currValue == null ? one : currValue);
+                        } else {
+                            totalValue = totalValue.multiply(prevValue == null ? one : prevValue);
+                        }
+                        break;
+                    case DIVISION:
+                        if (totalValue == null) {
+                            totalValue = (prevValue == null ? one : prevValue)
+                                    .divide(currValue == null ? one : currValue);
+                        } else {
+                            totalValue = totalValue.divide(prevValue == null ? one : prevValue);
+                        }
+                        break;
+                }
             }
         }
 
         if (totalValue.toString().endsWith(".0")) {
             result = String.valueOf(totalValue.intValue());
         } else {
-            result = Double.toString(totalValue);
+            result = String.valueOf(totalValue);
         }
         prevOperand = operand;
         return result;
@@ -63,30 +85,29 @@ public class Calculations {
 
     public String performEqual() {
         String result;
-        double total = totalValue == null ? 0 : totalValue;
-        double curr = currValue == null ? 0 : currValue;
+        BigDecimal total = totalValue == null ? zero : totalValue;
+        BigDecimal curr = currValue == null ? zero : currValue;
         switch (prevOperand) {
             case ADDITION:
-                totalValue = total + curr;
+                totalValue = total.add(curr);
                 break;
             case SUBTRACTION:
-                totalValue = total - curr;
+                totalValue = total.subtract(curr);
                 break;
             case MULTIPLICATION:
-                totalValue = total * curr;
+                totalValue = total.multiply(curr);
                 break;
             case DIVISION:
-                totalValue = total / curr;
+                totalValue = total.divide(curr);
                 break;
-//                    case PERCENT:
-//                        totalValue = total * (prevValue/100);
-//                        break;
+            case PERCENT:
+                totalValue = total.multiply(prevValue.divide(oneHundred));
+                break;
         }
         if (totalValue.toString().endsWith(".0")) {
             result = String.valueOf(totalValue.intValue());
         } else {
-            result = Double.toString(totalValue);
-        }
+            result = String.valueOf(totalValue);        }
         return result;
     }
 
@@ -96,32 +117,32 @@ public class Calculations {
         currValue = null;
     }
 
-    public Double getPrevValue() {
+    public BigDecimal getPrevValue() {
         return prevValue;
     }
 
-    public void setPrevValue(Double prevValue) {
+    public void setPrevValue(BigDecimal prevValue) {
         this.prevValue = prevValue;
     }
 
-    public Double getCurrValue() {
+    public BigDecimal getCurrValue() {
         return currValue;
     }
 
-    public void setCurrValue(Double currValue) {
+    public void setCurrValue(BigDecimal currValue) {
         this.currValue = currValue;
     }
 
     public void setCurrValue(String value) {
-        this.currValue = Double.parseDouble(value);
+        this.currValue = BigDecimal.valueOf(Double.parseDouble(value));
     }
 
 
-    public Double getTotalValue() {
+    public BigDecimal getTotalValue() {
         return totalValue;
     }
 
-    public void setTotalValue(Double totalValue) {
+    public void setTotalValue(BigDecimal totalValue) {
         this.totalValue = totalValue;
     }
 }

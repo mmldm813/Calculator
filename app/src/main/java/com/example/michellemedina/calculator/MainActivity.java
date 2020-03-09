@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+
 import static com.example.michellemedina.calculator.Calculations.OperandType.ADDITION;
 import static com.example.michellemedina.calculator.Calculations.OperandType.MULTIPLICATION;
+import static com.example.michellemedina.calculator.Calculations.OperandType.PERCENT;
 import static com.example.michellemedina.calculator.Calculations.OperandType.SUBTRACTION;
 import static com.example.michellemedina.calculator.Calculations.OperandType.DIVISION;
 
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         executeOperation(R.id.subtraction, SUBTRACTION);
         executeOperation(R.id.multiplication, MULTIPLICATION);
         executeOperation(R.id.division, DIVISION);
-//        executeOperation(R.id.percent, OperandType.PERCENT);
+        executeOperation(R.id.percent, PERCENT);
 
         result = findViewById(R.id.result);
         clear = findViewById(R.id.clear);
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 turnMinusOff = false;
                 turnMultiplicationOff = false;
                 turnDivisionOff = false;
+                turnPercentOff = false;
                 result.setText(result.getText() + String.valueOf(number));
                 calculations.setCurrValue(result.getText().toString());
             }
@@ -129,14 +133,21 @@ public class MainActivity extends AppCompatActivity {
                     turnMinusOff = true;
                     turnMultiplicationOff = true;
                     turnDivisionOff = true;
-//                    turnPercentOff = true;
+                    turnPercentOff = true;
                     if (result.getText().equals("")) {
                         clearResultField = true;
-                        calculations.setCurrValue(0.0);
+                        calculations.setCurrValue(BigDecimal.valueOf(0.0));
                         result.setText("");
                     } else {
                         result.setText(calculations.performMath(operand));
                         clearResultField = true;
+                        if (operand == PERCENT) {
+                            turnPlusOff = false;
+                            turnMinusOff = false;
+                            turnMultiplicationOff = false;
+                            turnDivisionOff = false;
+                            turnPercentOff = false;
+                        }
                     }
                 }
             }
