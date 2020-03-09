@@ -67,7 +67,7 @@ public class Calculations {
                             totalValue = (prevValue == null ? one : prevValue)
                                     .divide(currValue == null ? one : currValue);
                         } else {
-                            totalValue = totalValue.divide(prevValue == null ? one : prevValue);
+                            totalValue = totalValue.divide(prevValue == null ? one : prevValue , RoundingMode.HALF_UP);
                         }
                         break;
                 }
@@ -134,7 +134,7 @@ public class Calculations {
     }
 
     public void setCurrValue(String value) {
-        this.currValue = BigDecimal.valueOf(Double.parseDouble(value));
+         this.currValue = BigDecimal.valueOf(Double.parseDouble(value));
     }
 
 
