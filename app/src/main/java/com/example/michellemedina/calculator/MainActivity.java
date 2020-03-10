@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onStartSetup() {
         if (calculations.getCurrValue() == null) {
-            result.setText(String.valueOf(0));
+            result.setText(String.valueOf(BigDecimal.ZERO));
             clearResultField = true;
         }
     }
@@ -111,11 +111,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String resultStr = result.getText().toString();
                 if (clearResultField) {
-                    result.setText("");
+                    result.setText(String.valueOf(BigDecimal.ZERO));
                     clearResultField = false;
                 }
-                if (!result.getText().toString().contains("-")) {
+                if (resultStr.length() > 0 && !resultStr.contains("-") && !resultStr.equals(String.valueOf(BigDecimal.ZERO))) {
                     result.setText("-" + result.getText());
                     calculations.setCurrValue(result.getText().toString());
                 }
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     turnPercentOff = true;
                     if (result.getText().equals("")) {
                         clearResultField = true;
-                        calculations.setCurrValue(BigDecimal.valueOf(0.0));
+                        calculations.setCurrValue(BigDecimal.ZERO);
                         result.setText("");
                     } else {
                         result.setText(calculations.performMath(operand));
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 clearResultField = true;
                 calculations.clearAllFields();
-                result.setText(String.valueOf(0));
+                result.setText(String.valueOf(BigDecimal.ZERO));
             }
         });
     }

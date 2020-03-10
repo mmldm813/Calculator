@@ -21,7 +21,7 @@ public class Calculations {
     private BigDecimal oneHundred = new BigDecimal(100);
 
     public String performMath(final OperandType operand) {
-        String result;
+        String result = "";
         prevValue = currValue;
         currValue = null;
 
@@ -67,17 +67,19 @@ public class Calculations {
                             totalValue = (prevValue == null ? one : prevValue)
                                     .divide(currValue == null ? one : currValue);
                         } else {
-                            totalValue = totalValue.divide(prevValue == null ? one : prevValue , RoundingMode.HALF_UP);
+                            totalValue = totalValue.divide(prevValue == null ? one : prevValue, RoundingMode.HALF_UP);
                         }
                         break;
                 }
             }
         }
 
-        if (totalValue.toString().endsWith(".0")) {
-            result = String.valueOf(totalValue.intValue());
-        } else {
-            result = String.valueOf(totalValue);
+        if (totalValue != null) {
+            if (totalValue.toString().endsWith(".0")) {
+                result = String.valueOf(totalValue.intValue());
+            } else {
+                result = String.valueOf(totalValue);
+            }
         }
         prevOperand = operand;
         return result;
@@ -107,7 +109,8 @@ public class Calculations {
         if (totalValue.toString().endsWith(".0")) {
             result = String.valueOf(totalValue.intValue());
         } else {
-            result = String.valueOf(totalValue);        }
+            result = String.valueOf(totalValue);
+        }
         return result;
     }
 
@@ -134,7 +137,7 @@ public class Calculations {
     }
 
     public void setCurrValue(String value) {
-         this.currValue = BigDecimal.valueOf(Double.parseDouble(value));
+        this.currValue = BigDecimal.valueOf(Double.parseDouble(value));
     }
 
 
