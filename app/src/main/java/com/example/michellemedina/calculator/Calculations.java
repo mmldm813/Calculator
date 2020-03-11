@@ -106,7 +106,7 @@ public class Calculations {
                 totalValue = total.multiply(prevValue.divide(oneHundred));
                 break;
         }
-        if (totalValue.toString().endsWith(".0")) {
+        if (totalValue.toString().endsWith(".00")) {
             result = String.valueOf(totalValue.intValue());
         } else {
             result = String.valueOf(totalValue);
