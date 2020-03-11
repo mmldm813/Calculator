@@ -75,7 +75,7 @@ public class Calculations {
         }
 
         if (totalValue != null) {
-            if (totalValue.toString().endsWith(".0")) {
+            if (totalValue.toString().endsWith(".00")) {
                 result = String.valueOf(totalValue.intValue());
             } else {
                 result = String.valueOf(totalValue);
