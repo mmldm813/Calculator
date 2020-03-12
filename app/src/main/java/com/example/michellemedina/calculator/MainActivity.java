@@ -7,11 +7,11 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 
-import static com.example.michellemedina.calculator.Calculations.OperandType.ADDITION;
-import static com.example.michellemedina.calculator.Calculations.OperandType.MULTIPLICATION;
-import static com.example.michellemedina.calculator.Calculations.OperandType.PERCENT;
-import static com.example.michellemedina.calculator.Calculations.OperandType.SUBTRACTION;
-import static com.example.michellemedina.calculator.Calculations.OperandType.DIVISION;
+import static com.example.michellemedina.calculator.CalculationsEngine.OperandType.ADDITION;
+import static com.example.michellemedina.calculator.CalculationsEngine.OperandType.MULTIPLICATION;
+import static com.example.michellemedina.calculator.CalculationsEngine.OperandType.PERCENT;
+import static com.example.michellemedina.calculator.CalculationsEngine.OperandType.SUBTRACTION;
+import static com.example.michellemedina.calculator.CalculationsEngine.OperandType.DIVISION;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,54 +25,54 @@ public class MainActivity extends AppCompatActivity {
     private boolean turnDivisionOff;
     private boolean turnPercentOff;
 
-    private Calculations calculations;
+    private CalculationsEngine calculationsEngine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        calculations = new Calculations();
+        calculationsEngine = new CalculationsEngine();
 
         findViews();
         onStartSetup();
-        setupClearButton();
-        setupEqualButton();
+        clearPressed();
+        equalPressed();
 
     }
 
     private void onStartSetup() {
-        if (calculations.getCurrValue() == null) {
+        if (calculationsEngine.getCurrValue() == null) {
             result.setText(String.valueOf(BigDecimal.ZERO));
             clearResultField = true;
         }
     }
 
     private void findViews() {
-        setupNumberListener(R.id.zero, 0);
-        setupNumberListener(R.id.numb1, 1);
-        setupNumberListener(R.id.numb2, 2);
-        setupNumberListener(R.id.numb3, 3);
-        setupNumberListener(R.id.numb4, 4);
-        setupNumberListener(R.id.numb5, 5);
-        setupNumberListener(R.id.numb6, 6);
-        setupNumberListener(R.id.numb7, 7);
-        setupNumberListener(R.id.numb8, 8);
-        setupNumberListener(R.id.numb9, 9);
+        enterNumber(R.id.zero, 0);
+        enterNumber(R.id.numb1, 1);
+        enterNumber(R.id.numb2, 2);
+        enterNumber(R.id.numb3, 3);
+        enterNumber(R.id.numb4, 4);
+        enterNumber(R.id.numb5, 5);
+        enterNumber(R.id.numb6, 6);
+        enterNumber(R.id.numb7, 7);
+        enterNumber(R.id.numb8, 8);
+        enterNumber(R.id.numb9, 9);
 
-        executeOperation(R.id.addition, ADDITION);
-        executeOperation(R.id.subtraction, SUBTRACTION);
-        executeOperation(R.id.multiplication, MULTIPLICATION);
-        executeOperation(R.id.division, DIVISION);
-        executeOperation(R.id.percent, PERCENT);
+        pressingOperandButton(R.id.addition, ADDITION);
+        pressingOperandButton(R.id.subtraction, SUBTRACTION);
+        pressingOperandButton(R.id.multiplication, MULTIPLICATION);
+        pressingOperandButton(R.id.division, DIVISION);
+        pressingOperandButton(R.id.percent, PERCENT);
 
         result = findViewById(R.id.result);
         clear = findViewById(R.id.clear);
 
-        addingDecimal(R.id.decimal);
-        addingNegative(R.id.negative);
+        addDecimal(R.id.decimal);
+        addNegative(R.id.negative);
     }
 
-    private void setupNumberListener(int id, final int number) {
+    private void enterNumber(int id, final int number) {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
                 turnDivisionOff = false;
                 turnPercentOff = false;
                 result.setText(result.getText() + String.valueOf(number));
-                calculations.setCurrValue(result.getText().toString());
+                calculationsEngine.setCurrValue(result.getText().toString());
             }
         });
     }
 
-    private void addingDecimal(int id) {
+    private void addDecimal(int id) {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (!result.getText().toString().contains(".")) {
                     result.setText(result.getText() + (result.getText().equals("") ? "0." : "."));
-                    calculations.setCurrValue(result.getText().toString());
+                    calculationsEngine.setCurrValue(result.getText().toString());
                 }
             }
         });
     }
 
-    private void addingNegative(int id) {
+    private void addNegative(int id) {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,13 +118,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (resultStr.length() > 0 && !resultStr.contains("-") && !resultStr.equals(String.valueOf(BigDecimal.ZERO))) {
                     result.setText("-" + result.getText());
-                    calculations.setCurrValue(result.getText().toString());
+                    calculationsEngine.setCurrValue(result.getText().toString());
                 }
             }
         });
     }
 
-    void executeOperation(int id, final Calculations.OperandType operand) {
+    void pressingOperandButton(int id, final CalculationsEngine.OperandType operand) {
         findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,10 +137,10 @@ public class MainActivity extends AppCompatActivity {
                     turnPercentOff = true;
                     if (result.getText().equals("")) {
                         clearResultField = true;
-                        calculations.setCurrValue(BigDecimal.ZERO);
+                        calculationsEngine.setCurrValue(BigDecimal.ZERO);
                         result.setText("");
                     } else {
-                        result.setText(calculations.performMath(operand));
+                        result.setText(calculationsEngine.pressedOperandButtonPerformsCalculation(operand));
                         clearResultField = true;
                         if (operand == PERCENT) {
                             turnPlusOff = false;
@@ -155,22 +155,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    void setupEqualButton() {
+    void equalPressed() {
         findViewById(R.id.equals).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result.setText(calculations.performEqual());
+                result.setText(calculationsEngine.pressedEqualCalculation());
                 clearResultField = true;
             }
         });
     }
 
-    private void setupClearButton() {
+    private void clearPressed() {
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clearResultField = true;
-                calculations.clearAllFields();
+                calculationsEngine.clearAllFields();
                 result.setText(String.valueOf(BigDecimal.ZERO));
             }
         });
