@@ -211,37 +211,66 @@ public class ExampleUnitTest {
 
     @Test
     public void subtractingNumbersWithDecimalsUsingEquals() {
-
+        calculationsEngine.setCurrValue(new BigDecimal(3.2).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.SUBTRACTION);
+        calculationsEngine.setCurrValue(new BigDecimal(2.1).setScale(1, RoundingMode.HALF_UP));
+        assertEquals("1.1", calculationsEngine.pressedEqualCalculation());
     }
 
     @Test
     public void multiplyNumbersWithDecimalsUsingEquals() {
-
+        calculationsEngine.setCurrValue(new BigDecimal(3.2).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.MULTIPLICATION);
+        calculationsEngine.setCurrValue(new BigDecimal(2.1).setScale(1, RoundingMode.HALF_UP));
+        assertEquals("6.72", calculationsEngine.pressedEqualCalculation());
     }
 
     @Test
     public void divideNumbersWithDecimalsUsingEquals() {
-
+        calculationsEngine.setCurrValue(new BigDecimal(4.6).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.DIVISION);
+        calculationsEngine.setCurrValue(new BigDecimal(2.3).setScale(1, RoundingMode.HALF_UP));
+        assertEquals("2", calculationsEngine.pressedEqualCalculation());
     }
 
     @Test
     public void addingMultipleNumbersWithDecimalsUsingEquals() {
-
+        calculationsEngine.setCurrValue(new BigDecimal(2.2).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.ADDITION);
+        calculationsEngine.setCurrValue(new BigDecimal(3.3).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.ADDITION);
+        calculationsEngine.setCurrValue(new BigDecimal(1.1).setScale(1, RoundingMode.HALF_UP));
+        assertEquals("6.6", calculationsEngine.pressedEqualCalculation());
     }
 
     @Test
     public void subtractingMultipleNumbersWithDecimalsUsingEquals() {
-
+        calculationsEngine.setCurrValue(new BigDecimal(3.3).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.SUBTRACTION);
+        calculationsEngine.setCurrValue(new BigDecimal(2.2).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.SUBTRACTION);
+        calculationsEngine.setCurrValue(new BigDecimal(1.1).setScale(1, RoundingMode.HALF_UP));
+        assertEquals("0.0", calculationsEngine.pressedEqualCalculation());
     }
 
     @Test
     public void multiplyingMultipleNumbersWithDecimalsUsingEquals() {
-
+        calculationsEngine.setCurrValue(new BigDecimal(3.3).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.MULTIPLICATION);
+        calculationsEngine.setCurrValue(new BigDecimal(2.2).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.MULTIPLICATION);
+        calculationsEngine.setCurrValue(new BigDecimal(1.1).setScale(1, RoundingMode.HALF_UP));
+        assertEquals("7.986", calculationsEngine.pressedEqualCalculation());
     }
 
     @Test
     public void dividingMultipleNumbersWithDecimalsUsingEquals() {
-
+        calculationsEngine.setCurrValue(new BigDecimal(3.3).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.DIVISION);
+        calculationsEngine.setCurrValue(new BigDecimal(2.2).setScale(1, RoundingMode.HALF_UP));
+        calculationsEngine.pressedOperandButtonPerformsCalculation(CalculationsEngine.OperandType.DIVISION);
+        calculationsEngine.setCurrValue(new BigDecimal(1.1).setScale(1, RoundingMode.HALF_UP));
+        assertEquals("", calculationsEngine.pressedEqualCalculation());
     }
 
     @Test

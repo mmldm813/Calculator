@@ -107,7 +107,7 @@ public class CalculationsEngine {
                 totalValue = total.divide(curr);
                 break;
             case PERCENT:
-                totalValue = total.multiply(prevValue.divide(ONE_HUNDRED));
+                totalValue = total.multiply(prevValue.divide(ONE_HUNDRED, BigDecimal.ROUND_HALF_UP));
                 break;
         }
         if (totalValue != null) {
